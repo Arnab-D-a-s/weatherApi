@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: weather-service
+  jackson:
+    default-property-inclusion: non_null
+
+
+  main:
+    allow-bean-definition-overriding: true
+
+  profiles:
+    active: "local"
+
+swagger:
+  application:
+    description: Weather Product Microservice
+    version: 0.9.2
+
+
+---
+
+spring:
+  profiles: local
+
+
+management:
+  info:
+    git:
+      mode: full
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      influx:
+        enabled: false
+
+
+
