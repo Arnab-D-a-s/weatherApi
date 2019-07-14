@@ -3,6 +3,9 @@ spring:
     name: weather-service
   jackson:
     default-property-inclusion: non_null
+  cache:
+    jcache:
+      config: classpath:ehcache-default.xml
 
 
   main:
@@ -14,7 +17,7 @@ spring:
 swagger:
   application:
     description: Weather Product Microservice
-    version: 0.12
+    version: 0.2
     apikey: ${openweather_apikey}
 
 

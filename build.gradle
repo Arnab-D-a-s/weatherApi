@@ -32,6 +32,18 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxrs
 	compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.3.2'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version: '2.1.4.RELEASE'
+	compile group: 'javax.cache', name: 'cache-api', version: '1.1.1'
+	compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
+
+	compile group: 'org.springframework', name: 'spring-context-support', version: '5.1.5.RELEASE'
+
+
+
+
+
+
 
 
 }
