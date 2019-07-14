@@ -26,7 +26,10 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 // https://mvnrepository.com/artifact/io.springfox/springfox-bean-validators
 	compile group: 'io.springfox', name: 'springfox-bean-validators', version: '2.9.2'
-	compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
+	//compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+
 	// https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxrs
 	compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: '3.3.2'
 

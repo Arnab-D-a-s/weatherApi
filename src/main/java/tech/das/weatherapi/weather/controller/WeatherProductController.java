@@ -8,7 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.das.weatherapi.restClient.ClientConfig;
+import tech.das.weatherapi.weather.model.OpenWeatherRequestor;
 import tech.das.weatherapi.weather.model.WeatherReportResponse;
+import tech.das.weatherapi.weather.services.MainProcessDelegator;
+
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,16 +21,20 @@ import tech.das.weatherapi.weather.model.WeatherReportResponse;
 @Api(value = "Weather API", description = "To get Weather reports", tags = "Weather API")
 public class WeatherProductController {
 
-    @RequestMapping(value = "/weather", method = RequestMethod.GET)
+    private final ClientConfig clientApi;
+    private final MainProcessDelegator mainProcessDelegator;
+
+    @RequestMapping(value = "/futureWeather", method = RequestMethod.GET)
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get weather report", response = WeatherReportResponse.class, nickname = "getWeatherReport")
+    @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherReportResponse.class, nickname = "getWeatherReport")
     public ResponseEntity<WeatherReportResponse> getWeatherReport(@ApiParam(value = "Location", example = "Copenhagen")
                                                                @RequestParam(value = "Location", defaultValue = "Copenhagen") final String locations,
-                                                               @ApiParam(value = "Temperature", example = "10")
-                                                               @RequestParam(value = "Temperature", defaultValue = "10" ) final int temperature) throws InterruptedException {
-        WeatherReportResponse reposne = new WeatherReportResponse();
-        log.info("Hey I got it");
-        reposne.setDummy(locations.concat("Hi"));
-        return ResponseEntity.ok(reposne);
+                                                               @ApiParam(value = "Country Code", example = "dk")
+                                                               @RequestParam(value = "Country Code", defaultValue = "dk" ) final String countryCode) throws InterruptedException, ExecutionException {
+        WeatherReportResponse response =  mainProcessDelegator.getForecast(clientApi.getForecastResponseFromApi(OpenWeatherRequestor.builder()
+                .location(locations)
+                .countryCode(countryCode)
+                .build()));
+        return ResponseEntity.ok(response);
     }
 }

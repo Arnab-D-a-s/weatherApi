@@ -2,7 +2,10 @@ package tech.das.weatherapi.weather.model;
 
 import lombok.*;
 
+import javax.validation.constraints.Max;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -10,5 +13,6 @@ import java.io.Serializable;
 @Data
 public class WeatherReportResponse implements Serializable {
 
-    private String dummy;
+    private List<TemperatureList> temperatureLists;
+
 }
