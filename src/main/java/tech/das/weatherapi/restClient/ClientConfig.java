@@ -3,12 +3,9 @@ package tech.das.weatherapi.restClient;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import tech.das.weatherapi.restClient.DTO.ForecastResponse;
-import tech.das.weatherapi.restClient.DTO.OpenWeatherOrgApiResponse;
-import tech.das.weatherapi.weather.model.OpenWeatherRequestor;
+import tech.das.weatherapi.weather.datamodels.OpenWeatherRequestor;
 
 @Configuration
 @AllArgsConstructor

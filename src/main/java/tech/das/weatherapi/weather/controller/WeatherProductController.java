@@ -9,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.das.weatherapi.restClient.ClientConfig;
-import tech.das.weatherapi.weather.model.OpenWeatherRequestor;
-import tech.das.weatherapi.weather.model.WeatherReportResponse;
+import tech.das.weatherapi.weather.datamodels.OpenWeatherRequestor;
+import tech.das.weatherapi.weather.datamodels.WeatherReportResponse;
 import tech.das.weatherapi.weather.services.MainProcessDelegator;
 
 import java.util.concurrent.ExecutionException;

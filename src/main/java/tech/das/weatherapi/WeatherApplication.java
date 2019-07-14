@@ -12,9 +12,9 @@ import java.util.concurrent.Executor;
 @SpringBootApplication
 @EnableAsync
 @ComponentScan(basePackages = {"tech.das"})
-public class WeatherapiApplication {
+public class WeatherApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(WeatherapiApplication.class, args);
+		SpringApplication.run(WeatherApplication.class, args);
 	}
 
 	@Bean

@@ -1,10 +1,8 @@
-package tech.das.weatherapi.weather.model;
+package tech.das.weatherapi.weather.datamodels;
 
 import lombok.*;
 
-import javax.validation.constraints.Max;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Builder

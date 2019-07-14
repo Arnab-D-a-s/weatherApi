@@ -2,8 +2,8 @@ package tech.das.weatherapi.weather.services;
 
 import org.springframework.stereotype.Component;
 import tech.das.weatherapi.restClient.DTO.ForecastResponse;
-import tech.das.weatherapi.weather.model.TemperatureList;
-import tech.das.weatherapi.weather.model.WeatherReportResponse;
+import tech.das.weatherapi.weather.datamodels.TemperatureList;
+import tech.das.weatherapi.weather.datamodels.WeatherReportResponse;
 
 import java.util.ArrayList;
 import java.util.List;

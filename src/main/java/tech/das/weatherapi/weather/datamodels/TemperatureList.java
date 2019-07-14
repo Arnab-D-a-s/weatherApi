@@ -1,4 +1,4 @@
-package tech.das.weatherapi.weather.model;
+package tech.das.weatherapi.weather.datamodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
