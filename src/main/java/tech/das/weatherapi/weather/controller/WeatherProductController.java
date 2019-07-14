@@ -27,13 +27,12 @@ public class WeatherProductController {
     @RequestMapping(value = "/futureWeather", method = RequestMethod.GET)
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherReportResponse.class, nickname = "getWeatherReport")
-    public ResponseEntity<WeatherReportResponse> getWeatherReport(@ApiParam(value = "Location", example = "Copenhagen")
-                                                               @RequestParam(value = "Location", defaultValue = "Copenhagen") final String locations,
-                                                               @ApiParam(value = "Country Code", example = "dk")
-                                                               @RequestParam(value = "Country Code", defaultValue = "dk" ) final String countryCode) throws InterruptedException, ExecutionException {
+    public ResponseEntity<WeatherReportResponse> getWeatherReport(@ApiParam(value = "LocationID", example = "2618425")
+                                                               @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode
+                                                               ) throws InterruptedException, ExecutionException {
         WeatherReportResponse response =  mainProcessDelegator.getForecast(clientApi.getForecastResponseFromApi(OpenWeatherRequestor.builder()
-                .location(locations)
-                .countryCode(countryCode)
+                .location(String.valueOf(locationCode))
+                .countryCode("dummy")
                 .build()));
         return ResponseEntity.ok(response);
     }
