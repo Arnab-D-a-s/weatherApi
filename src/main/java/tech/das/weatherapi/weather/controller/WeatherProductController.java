@@ -43,12 +43,12 @@ public class WeatherProductController {
     @RequestMapping(value = "/weather/summary", method = RequestMethod.GET)
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Check these places for travelling tomorrow", response = WeatherSummaryResponse.class, nickname = "getWeatherReport")
-    public ResponseEntity<WeatherSummaryResponse> getWeatherSummary(@ApiParam(value = "LocationIDs separated by comma", example = "2618425,123415")
-                                                                    @RequestParam(value = "LocationIDs separated by comma", defaultValue = "2618425,123415") final String LocationIds,
+    public ResponseEntity<WeatherSummaryResponse> getWeatherSummary(@ApiParam(value = "LocationIDs separated by comma", example = "2618425,4164138,1275004")
+                                                                    @RequestParam(value = "LocationIDs separated by comma", defaultValue = "2618425,4164138,1275004") final String LocationIds,
                                                                     @ApiParam(value = "Units", example = "CELSIUS")
                                                                     @RequestParam(value = "Units", defaultValue = "CELSIUS") final String unit,
-                                                                    @ApiParam(value = "Temperature Threshold", example = "30")
-                                                                    @RequestParam(value = "Temperature Threshold", defaultValue = "15") final Integer temperature
+                                                                    @ApiParam(value = "Temperature Threshold", example = "20")
+                                                                    @RequestParam(value = "Temperature Threshold", defaultValue = "20") final Integer temperature
     ) throws InterruptedException, ExecutionException, NumberFormatException {
 
         List<Integer> locationList = new ArrayList<>();
