@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Data
@@ -28,6 +30,13 @@ public class TempListFromApi implements Serializable {
         response.setTime((long)date*1000);
         return (response);
 
+    }
+
+    public LocalDate getLocalDate () {
+        Date date1 = this.getUsableDate();
+        return date1.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
 }

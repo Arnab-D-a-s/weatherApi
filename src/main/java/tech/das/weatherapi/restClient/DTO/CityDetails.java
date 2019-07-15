@@ -7,22 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
-@Data
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ForecastResponse implements Serializable {
+public class CityDetails implements Serializable {
 
-    @JsonProperty("message")
-    private String message;
-
-    @JsonProperty("city")
-    private CityDetails cityDetails;
-
-    @JsonProperty("list")
-    private List<TempListFromApi> listofTemperatures;
-
+    @JsonProperty("name")
+    private String cityName;
 
 }

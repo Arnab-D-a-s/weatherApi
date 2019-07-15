@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tech.das.weatherapi.restClient.DTO.ForecastResponse;
+import tech.das.weatherapi.weather.datamodels.TemperatureList;
 
 @Slf4j
 @Component
@@ -27,4 +28,5 @@ public class ExternalResponseDelegator {
                 = "https://api.openweathermap.org/data/2.5/forecast?id=" + locationCode + "&appid=" + apiKey;
         return restTemplate.getForObject(apiUrl, ForecastResponse.class);
     }
+
 }

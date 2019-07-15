@@ -15,8 +15,8 @@ public class ClientConfig {
 
     private final ExternalResponseDelegator externalResponseDelegator;
 
-    public ForecastResponse getForecastResponseFromApi(OpenWeatherRequestor requestParms){
-        ForecastResponse response= (externalResponseDelegator.getForecastFromApiOrCache(requestParms.getLocation()));
+    public ForecastResponse getForecastResponseFromApi(String requestLocation){
+        ForecastResponse response= (externalResponseDelegator.getForecastFromApiOrCache(requestLocation));
         return response;
     }
 }
