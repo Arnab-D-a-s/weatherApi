@@ -16,5 +16,7 @@ public class CityDetails implements Serializable {
 
     @JsonProperty("name")
     private String cityName;
+    @JsonProperty("id")
+    private Integer cityCode;
 
 }

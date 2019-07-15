@@ -20,4 +20,8 @@ public class TemperatureMasterObject implements Serializable {
     public BigDecimal getCelciusTemp() {
         return this.temperature.subtract(BigDecimal.valueOf(273.15)).setScale(2,BigDecimal.ROUND_UP);
     }
+
+    public BigDecimal getFahrenheitTemp() {
+        return this.temperature.multiply(BigDecimal.valueOf(1.8)).subtract(BigDecimal.valueOf(459.67));
+    }
 }

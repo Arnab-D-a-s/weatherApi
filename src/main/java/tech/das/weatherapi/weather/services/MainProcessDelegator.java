@@ -5,10 +5,7 @@ import org.springframework.stereotype.Component;
 import tech.das.weatherapi.restClient.ClientConfig;
 import tech.das.weatherapi.restClient.DTO.ForecastResponse;
 import tech.das.weatherapi.restClient.DTO.TempListFromApi;
-import tech.das.weatherapi.weather.datamodels.FavCities;
-import tech.das.weatherapi.weather.datamodels.TemperatureList;
-import tech.das.weatherapi.weather.datamodels.WeatherReportResponse;
-import tech.das.weatherapi.weather.datamodels.WeatherSummaryResponse;
+import tech.das.weatherapi.weather.datamodels.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
@@ -44,7 +41,7 @@ public class MainProcessDelegator {
         return outPut;
     }
 
-    public WeatherSummaryResponse getWeatherSummary(List<Integer> locationsToSearch, String unit, BigDecimal temp) {
+    public WeatherSummaryResponse getWeatherSummary(List<Integer> locationsToSearch, UnitType unit, BigDecimal temp) {
         List<FavCities> favCities = new ArrayList<>();
         List<ForecastResponse> forecastResponses = new ArrayList<>();
         locationsToSearch.forEach(
@@ -53,20 +50,24 @@ public class MainProcessDelegator {
                                 .getForecastResponseFromApi(String.valueOf(l))));
 
         forecastResponses
-                .stream()
                 .forEach(l -> {
+                    Predicate<TempListFromApi> tempCompare;
+                    if (unit.compareTo(UnitType.METRIC)==0){
+                        tempCompare = p -> p.getTemperatureMasterObject().getCelciusTemp().compareTo(temp) > 0;
+                    } else {
+                        tempCompare = p -> p.getTemperatureMasterObject().getFahrenheitTemp().compareTo(temp) > 0;
+                    }
                     Optional<TempListFromApi> tempListForTomorrow = l.getListofTemperatures()
                             .stream()
                             .filter(tempListFromApi -> tempListFromApi
                                     .getLocalDate().isEqual(LocalDate.now().plusDays(1)))
-                            .filter(p -> p.getTemperatureMasterObject().getCelciusTemp().compareTo(temp) > 1)
+                            .filter(tempCompare)
                             .findFirst();
-                    if (!tempListForTomorrow.isPresent()) {
-                        favCities.add(FavCities.builder()
-                                .locations(l.getCityDetails().getCityName())
-                                .temperature(tempListForTomorrow.get().getTemperatureMasterObject().getCelciusTemp())
-                                .build());
-                    }
+                    tempListForTomorrow.ifPresent(t -> favCities.add(FavCities.builder()
+                            .city(l.getCityDetails().getCityName())
+                            .temperature(t.getTemperatureMasterObject().getCelciusTemp())
+                            .locationCode(l.getCityDetails().getCityCode())
+                            .build()));
                 });
         return (WeatherSummaryResponse.builder().favoriteCities(favCities).build());
     }

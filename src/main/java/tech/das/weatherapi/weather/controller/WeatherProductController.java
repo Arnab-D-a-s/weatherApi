@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.das.weatherapi.restClient.ClientConfig;
 import tech.das.weatherapi.weather.datamodels.OpenWeatherRequestor;
+import tech.das.weatherapi.weather.datamodels.UnitType;
 import tech.das.weatherapi.weather.datamodels.WeatherReportResponse;
 import tech.das.weatherapi.weather.datamodels.WeatherSummaryResponse;
 import tech.das.weatherapi.weather.services.MainProcessDelegator;
@@ -33,7 +34,7 @@ public class WeatherProductController {
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherReportResponse.class, nickname = "getWeatherReport")
     public ResponseEntity<WeatherReportResponse> getWeatherForecast(@ApiParam(value = "LocationID", example = "2618425")
-                                                                  @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode
+                                                                    @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode
     ) throws InterruptedException, ExecutionException {
         WeatherReportResponse response = mainProcessDelegator.getForecast(clientApi.getForecastResponseFromApi(String.valueOf(locationCode)));
         return ResponseEntity.ok(response);
@@ -41,13 +42,13 @@ public class WeatherProductController {
 
     @RequestMapping(value = "/weather/summary", method = RequestMethod.GET)
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherSummaryResponse.class, nickname = "getWeatherReport")
+    @ApiOperation(value = "Check these places for travelling tomorrow", response = WeatherSummaryResponse.class, nickname = "getWeatherReport")
     public ResponseEntity<WeatherSummaryResponse> getWeatherSummary(@ApiParam(value = "LocationIDs separated by comma", example = "2618425,123415")
-                                                                   @RequestParam(value = "LocationIDs separated by comma", defaultValue = "2618425,123415") final String LocationIds,
-                                                                   @ApiParam(value = "Units", example = "CELSIUS")
-                                                                   @RequestParam(value = "Units", defaultValue = "CELSIUS") final String unit,
-                                                                   @ApiParam(value = "Temperature Threshold", example = "30")
-                                                                   @RequestParam(value = "Temperature Threshold", defaultValue = "15") final Integer temperature
+                                                                    @RequestParam(value = "LocationIDs separated by comma", defaultValue = "2618425,123415") final String LocationIds,
+                                                                    @ApiParam(value = "Units", example = "CELSIUS")
+                                                                    @RequestParam(value = "Units", defaultValue = "CELSIUS") final String unit,
+                                                                    @ApiParam(value = "Temperature Threshold", example = "30")
+                                                                    @RequestParam(value = "Temperature Threshold", defaultValue = "15") final Integer temperature
     ) throws InterruptedException, ExecutionException, NumberFormatException {
 
         List<Integer> locationList = new ArrayList<>();
@@ -62,7 +63,20 @@ public class WeatherProductController {
             throw e;
         }
 
-        WeatherSummaryResponse response = mainProcessDelegator.getWeatherSummary(locationList, unit, BigDecimal.valueOf(temperature));
+        UnitType unitType;
+        switch (unit.toUpperCase()) {
+            case ("CELSIUS"):
+                unitType = UnitType.METRIC;
+                break;
+            case ("FAHRENHEIT"):
+                unitType = UnitType.IMPERIAL;
+                break;
+            default:
+                unitType = UnitType.METRIC;
+                break;
+        }
+
+        WeatherSummaryResponse response = mainProcessDelegator.getWeatherSummary(locationList, unitType, BigDecimal.valueOf(temperature));
         return ResponseEntity.ok(response);
     }
 
