@@ -34,9 +34,11 @@ public class WeatherProductController {
     @GetMapping(path = "weather-api", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherReportResponse.class, nickname = "getWeatherReport")
     public ResponseEntity<WeatherReportResponse> getWeatherForecast(@ApiParam(value = "LocationID", example = "2618425")
-                                                                    @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode
+                                                                    @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode,
+                                                                    @ApiParam(value = "unit" , example = "Celcius", required = false)
+                                                                    @RequestParam(value = "unit", required = false) final String unit
     ) throws InterruptedException, ExecutionException {
-        WeatherReportResponse response = mainProcessDelegator.getForecast(clientApi.getForecastResponseFromApi(String.valueOf(locationCode)));
+        WeatherReportResponse response = mainProcessDelegator.getForecast(locationCode, unit);
         return ResponseEntity.ok(response);
     }
 

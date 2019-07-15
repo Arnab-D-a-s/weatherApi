@@ -21,20 +21,30 @@ public class MainProcessDelegator {
 
     private final ClientConfig apiClient;
 
-    public WeatherReportResponse getForecast(ForecastResponse responseFromApi) throws ExecutionException {
+    public WeatherReportResponse getForecast(Integer location, String unit) throws ExecutionException {
+        ForecastResponse responseFromApi = apiClient.getForecastResponseFromApi(String.valueOf(location));
+        UnitType unitType = UnitType.METRIC;
+        if (unit != null) {
+            if (unit.toUpperCase().equals("FAHRENHEIT")) {
+                unitType = UnitType.IMPERIAL;
+            }
+        }
         return (WeatherReportResponse.builder()
-                .temperatureLists(getAllLists(responseFromApi))
+                .temperatureLists(getAllLists(responseFromApi, unitType))
                 .build());
     }
 
-    private List<TemperatureList> getAllLists(ForecastResponse response) {
+    private List<TemperatureList> getAllLists(ForecastResponse response, UnitType unitType) {
         List<TemperatureList> outPut = new ArrayList<>();
         response.getListofTemperatures()
                 .forEach(l ->
                         outPut.add(
                                 TemperatureList.builder()
                                         .date(l.getUsableDate())
-                                        .temperature(l.getTemperatureMasterObject().getCelciusTemp())
+                                        .temperature(
+                                                (unitType.compareTo(UnitType.METRIC)==0)?
+                                                l.getTemperatureMasterObject().getCelciusTemp():
+                                                l.getTemperatureMasterObject().getFahrenheitTemp())
                                         .build()
                         )
                 );
