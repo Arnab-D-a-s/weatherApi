@@ -23,7 +23,7 @@ public class ExternalResponseDelegator {
     @Cacheable(value="forecastCache")
     public ForecastResponse getForecastFromApiOrCache(String locationCode) {
         RestTemplate restTemplate = new RestTemplate();
-        log.info("Calling the Third Party API for LocationCode" + locationCode);
+        log.info("Calling the Third Party API for LocationCode {}" , locationCode);
         String apiUrl
                 = "https://api.openweathermap.org/data/2.5/forecast?id=" + locationCode + "&appid=" + apiKey;
         return restTemplate.getForObject(apiUrl, ForecastResponse.class);
