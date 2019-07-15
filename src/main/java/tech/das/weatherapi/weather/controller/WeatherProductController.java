@@ -35,11 +35,15 @@ public class WeatherProductController {
     @ApiOperation(value = "Get weather report for this loctaion for the next 5 days", response = WeatherReportResponse.class, nickname = "getWeatherReport")
     public ResponseEntity<WeatherReportResponse> getWeatherForecast(@ApiParam(value = "LocationID", example = "2618425")
                                                                     @RequestParam(value = "LocationID", defaultValue = "2618425") final Integer locationCode,
-                                                                    @ApiParam(value = "unit" , example = "Celcius", required = false)
+                                                                    @ApiParam(value = "unit", example = "Celcius", required = false)
                                                                     @RequestParam(value = "unit", required = false) final String unit
     ) throws InterruptedException, ExecutionException {
         WeatherReportResponse response = mainProcessDelegator.getForecast(locationCode, unit);
+        if (response.getCode() != null) {
+            return ResponseEntity.ok().body(response);
+        }
         return ResponseEntity.ok(response);
+
     }
 
     @RequestMapping(value = "/weather/summary", method = RequestMethod.GET)
@@ -60,9 +64,11 @@ public class WeatherProductController {
             for (String d : demo) {
                 locationList.add(Integer.valueOf(d));
             }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            throw e;
+        }
+        catch (NumberFormatException e) {
+            return ResponseEntity.ok().body((WeatherSummaryResponse.builder()
+                    .message("The Location Code must be a number " + e.getMessage())
+                    .build()));
         }
 
         UnitType unitType;

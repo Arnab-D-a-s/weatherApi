@@ -23,6 +23,9 @@ public class MainProcessDelegator {
 
     public WeatherReportResponse getForecast(Integer location, String unit) throws ExecutionException {
         ForecastResponse responseFromApi = apiClient.getForecastResponseFromApi(String.valueOf(location));
+        if (responseFromApi.getCode().compareTo(200) != 0) {
+            return WeatherReportResponse.builder().message(responseFromApi.getMessage()).code(responseFromApi.getCode()).build();
+        }
         UnitType unitType = UnitType.METRIC;
         if (unit != null) {
             if (unit.toUpperCase().equals("FAHRENHEIT")) {
@@ -58,6 +61,15 @@ public class MainProcessDelegator {
                 l -> forecastResponses
                         .add(apiClient
                                 .getForecastResponseFromApi(String.valueOf(l))));
+        Optional<ForecastResponse> errorElement = forecastResponses
+                .stream()
+                .filter(forecastResponse -> forecastResponse.getCode().compareTo(200) != 0)
+                .findFirst();
+      if (errorElement.isPresent()) {
+          return WeatherSummaryResponse.builder()
+                  .message("Error from Server" + errorElement.get().getMessage())
+                  .build();
+      }
 
         forecastResponses
                 .forEach(l -> {

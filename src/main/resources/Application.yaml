@@ -17,7 +17,7 @@ spring:
 swagger:
   application:
     description: Weather Product Microservice
-    version: 1.2-BETA
+    version: 2.0-BETA
     apikey: ${openweather_apikey}
 
 
