@@ -45,9 +45,9 @@ public class MainProcessDelegator {
                                 TemperatureList.builder()
                                         .date(l.getUsableDate())
                                         .temperature(
-                                                (unitType.compareTo(UnitType.METRIC)==0)?
-                                                l.getTemperatureMasterObject().getCelciusTemp():
-                                                l.getTemperatureMasterObject().getFahrenheitTemp())
+                                                (unitType.compareTo(UnitType.METRIC) == 0) ?
+                                                        l.getTemperatureMasterObject().getCelciusTemp() :
+                                                        l.getTemperatureMasterObject().getFahrenheitTemp())
                                         .build()
                         )
                 );
@@ -65,16 +65,16 @@ public class MainProcessDelegator {
                 .stream()
                 .filter(forecastResponse -> forecastResponse.getCode().compareTo(200) != 0)
                 .findFirst();
-      if (errorElement.isPresent()) {
-          return WeatherSummaryResponse.builder()
-                  .message("Error from Server" + errorElement.get().getMessage())
-                  .build();
-      }
+        if (errorElement.isPresent()) {
+            return WeatherSummaryResponse.builder()
+                    .message("Error from Server" + errorElement.get().getMessage())
+                    .build();
+        }
 
         forecastResponses
                 .forEach(l -> {
                     Predicate<TempListFromApi> tempCompare;
-                    if (unit.compareTo(UnitType.METRIC)==0){
+                    if (unit.compareTo(UnitType.METRIC) == 0) {
                         tempCompare = p -> p.getTemperatureMasterObject().getCelciusTemp().compareTo(temp) > 0;
                     } else {
                         tempCompare = p -> p.getTemperatureMasterObject().getFahrenheitTemp().compareTo(temp) > 0;
@@ -91,6 +91,11 @@ public class MainProcessDelegator {
                             .locationCode(l.getCityDetails().getCityCode())
                             .build()));
                 });
+        if (favCities.size() == 0) {
+            favCities.add(FavCities.builder().city("No location in the choice is warmer than this. " +
+                    "Try adding Some more tropical cities")
+                    .build());
+        }
         return (WeatherSummaryResponse.builder().favoriteCities(favCities).build());
     }
 }
