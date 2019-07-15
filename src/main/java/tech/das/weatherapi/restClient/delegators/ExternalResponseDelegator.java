@@ -34,7 +34,7 @@ public class ExternalResponseDelegator {
             forecastResponse = restTemplate.getForObject(apiUrl, ForecastResponse.class);
             return forecastResponse;
         } catch (RestClientResponseException e) {
-            return (ForecastResponse.builder().code(400).message("Error From Server:" + e.getResponseBodyAsString()).build());
+            return (ForecastResponse.builder().code(400).message("Error From Server, PSSST!!!! Maybe check the location codes ;) :" + e.getResponseBodyAsString()).build());
         }
     }
 
