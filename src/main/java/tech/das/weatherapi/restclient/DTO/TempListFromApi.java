@@ -1,14 +1,12 @@
-package tech.das.weatherapi.restClient.DTO;
+package tech.das.weatherapi.restclient.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;

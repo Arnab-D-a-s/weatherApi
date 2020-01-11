@@ -2,9 +2,9 @@ package tech.das.weatherapi.weather.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tech.das.weatherapi.restClient.ClientConfig;
-import tech.das.weatherapi.restClient.DTO.ForecastResponse;
-import tech.das.weatherapi.restClient.DTO.TempListFromApi;
+import tech.das.weatherapi.restclient.ClientConfig;
+import tech.das.weatherapi.restclient.DTO.ForecastResponse;
+import tech.das.weatherapi.restclient.DTO.TempListFromApi;
 import tech.das.weatherapi.weather.datamodels.*;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package tech.das.weatherapi.restClient.delegators;
+package tech.das.weatherapi.restclient.delegators;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -6,13 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-import tech.das.weatherapi.restClient.DTO.ForecastResponse;
-import tech.das.weatherapi.weather.datamodels.TemperatureList;
+import tech.das.weatherapi.restclient.DTO.ForecastResponse;
 
 @Slf4j
 @Component
